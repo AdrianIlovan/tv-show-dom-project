@@ -14,18 +14,21 @@ function setup() {
     everySeason.innerHTML = `Season ${Number(episode.season) > 10 ? 1 : 0}${episode.season}`;
 
     let everyEpisode = document.createElement("span");
-    everyEpisode.innerText = `Episode${Number(episode.number) > 10 ? 1 : 0}${episode.number}`;
+    everyEpisode.innerText = ` Episode${Number(episode.number) > 10 ? 1 : 0}${episode.number}`;
 
     let title = document.createElement("h2");
-    title.innerHTML = `${episode.name} - `;
+    title.innerHTML = `${episode.name.toUpperCase()} - `;
+    title.className = "title";
     title.appendChild(everySeason);
     title.appendChild(everyEpisode);
 
     let episodeSummary = document.createElement("p");
     episodeSummary.innerHTML = episode.summary;
+    episodeSummary.className = "summary"
 
     let episodeIMG = document.createElement("img");
     episodeIMG.src = episode.image.medium;
+    episodeIMG.className = "image";
 
     containerDiv.appendChild(title);
     containerDiv.appendChild(episodeIMG);
