@@ -2,16 +2,20 @@
 
 //const boxContainer = document.getElementById("box-container");
 const allEpisodes = getAllEpisodes();
-//let searchContainer = document.getElementById("search");
 
 const searchInput = document.getElementById("searchinput");
-let ep = [];
+const searchResult = document.getElementById("searchresult");
+
 searchInput.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
   const filteredEpisodes = allEpisodes.filter(episode => episode.name.toLowerCase().includes(value));
   makePageForEpisodes(filteredEpisodes);
+  episodeCountNo(filteredEpisodes.length);
   });
   
+function episodeCountNo(count) {
+  searchResult.textContent = `Episodes Found: ${count}`;
+}
 
 
 function setup() {
