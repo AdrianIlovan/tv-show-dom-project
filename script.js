@@ -1,11 +1,28 @@
 //You can edit ALL of the code here
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
 
-  const rootId = document.getElementById("root");
+//const boxContainer = document.getElementById("box-container");
+const allEpisodes = getAllEpisodes();
+//let searchContainer = document.getElementById("search");
+
+const searchInput = document.getElementById("searchinput");
+let ep = [];
+searchInput.addEventListener("input", (e) => {
+  const value = e.target.value.toLowerCase();
+  const filteredEpisodes = allEpisodes.filter(episode => episode.name.toLowerCase().includes(value));
+  makePageForEpisodes(filteredEpisodes);
+  });
   
-  for (let episode of allEpisodes) {
+
+
+function setup() {
+  makePageForEpisodes(allEpisodes);
+}
+
+function makePageForEpisodes(episodeList) {
+  const rootId = document.getElementById("root");
+  rootId.innerHTML = "";
+  
+  for (let episode of episodeList) {
     let containerDiv = document.createElement("div");
     rootId.appendChild(containerDiv);
     containerDiv.className = "box";
@@ -34,12 +51,6 @@ function setup() {
     containerDiv.appendChild(episodeIMG);
     containerDiv.appendChild(episodeSummary);
   }
-}
-
-
-function makePageForEpisodes(episodeList) {
- //const rootElem = document.getElementById("root");
- // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 }
 
 
