@@ -1,10 +1,19 @@
-//You can edit ALL of the code here
 
-//const boxContainer = document.getElementById("box-container");
-const allEpisodes = getAllEpisodes();
+//const allEpisodes = getAllEpisodes();
 
 const searchInput = document.getElementById("searchinput");
 const searchResult = document.getElementById("searchresult");
+
+//Fetch the episode data
+fetch("https://api.tvmaze.com/shows/527/episodes")
+  .then(response => response.json())
+  .then(episodes => {
+    setup(episodes);
+  })
+  .catch(error => {
+    console.log("error fetching episodes", error);
+  });
+//
 
 searchInput.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
@@ -39,9 +48,9 @@ function episodeSelector(episodes){
   });
 }
 
-function setup() {
-  makePageForEpisodes(allEpisodes);
-  episodeSelector(allEpisodes);
+function setup(episodes) {
+  makePageForEpisodes(episodes);
+  episodeSelector(episodes);
 }
 
 function makePageForEpisodes(episodeList) {
