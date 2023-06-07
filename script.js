@@ -1,4 +1,6 @@
 const allEpisodes = getAllEpisodes();
+let storedEpisodes = allEpisodes;
+let selectedIndex = -1;
 
 //Fetch the episode data
 fetch("https://api.tvmaze.com/shows/82/episodes")
@@ -22,12 +24,18 @@ searchInput.addEventListener("input", (e) => {
   );
   makePageForEpisodes(filteredEpisodes);
   episodeCountNo(filteredEpisodes.length);
+  storedEpisodes = filteredEpisodes;
   });
 
 //Episode Selector
 function episodeSelector(episodes){
   const selector = document.getElementById("selector"); 
 
+  const showOption = document.createElement("option");
+  showOption.value = -1;
+  showOption.textContent = "Show All Episodes";
+  selector.appendChild(showOption);
+  
   episodes.forEach((episode, index) => {
     const option = document.createElement("option");
     option.value = index;
@@ -35,15 +43,24 @@ function episodeSelector(episodes){
     selector.appendChild(option);
   });
 
+  let selectedIndex = -1;
+
   selector.addEventListener("change", event => {
-    const selectedIndex = parseInt(event.target.value);
-    const selectedEpisode = episodes[selectedIndex];
-    console.log(selectedEpisode);  
+    selectedIndex = parseInt(event.target.value);
+    if (selectedIndex === -1) {
+      makePageForEpisodes(allEpisodes);
+    } else {
+      const selectedEpisode = episodes[selectedIndex];
+      makePageForEpisodes([selectedEpisode]);
+    }
   });
 }
 
+
+
 //Episode found: number
 const searchResult = document.getElementById("searchresult");
+
   function episodeCountNo(count) {
     searchResult.textContent = `Episodes Found: ${count}`;
 }
@@ -89,6 +106,7 @@ function setup(allEpisodes) {
   episodeSelector(allEpisodes);
 }
 
-window.onload = setup;
-
+window.onload = function() {
+  setup(allEpisodes);
+}
 
