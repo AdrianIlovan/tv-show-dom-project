@@ -1,11 +1,7 @@
-
-//const allEpisodes = getAllEpisodes();
-
-const searchInput = document.getElementById("searchinput");
-const searchResult = document.getElementById("searchresult");
+const allEpisodes = getAllEpisodes();
 
 //Fetch the episode data
-fetch("https://api.tvmaze.com/shows/527/episodes")
+fetch("https://api.tvmaze.com/shows/82/episodes")
   .then(response => response.json())
   .then(episodes => {
     setup(episodes);
@@ -14,6 +10,9 @@ fetch("https://api.tvmaze.com/shows/527/episodes")
     console.log("error fetching episodes", error);
   });
 //
+
+//Search Bar Container
+const searchInput = document.getElementById("searchinput");
 
 searchInput.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
@@ -25,19 +24,14 @@ searchInput.addEventListener("input", (e) => {
   episodeCountNo(filteredEpisodes.length);
   });
 
-
-
-function episodeCountNo(count) {
-  searchResult.textContent = `Episodes Found: ${count}`;
-}
-
+//Episode Selector
 function episodeSelector(episodes){
   const selector = document.getElementById("selector"); 
 
   episodes.forEach((episode, index) => {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = `${episode.name} - Season ${episode.season} , Episode ${episode.number}`
+    option.textContent = `${episode.name} - Season ${episode.season} , Episode ${episode.number}`;
     selector.appendChild(option);
   });
 
@@ -48,11 +42,13 @@ function episodeSelector(episodes){
   });
 }
 
-function setup(episodes) {
-  makePageForEpisodes(episodes);
-  episodeSelector(episodes);
+//Episode found: number
+const searchResult = document.getElementById("searchresult");
+  function episodeCountNo(count) {
+    searchResult.textContent = `Episodes Found: ${count}`;
 }
 
+//Episodes List From Selector text and numbers
 function makePageForEpisodes(episodeList) {
   const rootId = document.getElementById("root");
   rootId.innerHTML = "";
@@ -86,6 +82,11 @@ function makePageForEpisodes(episodeList) {
     containerDiv.appendChild(episodeIMG);
     containerDiv.appendChild(episodeSummary);
   }
+}
+//main setup function
+function setup(allEpisodes) {
+  makePageForEpisodes(allEpisodes);
+  episodeSelector(allEpisodes);
 }
 
 window.onload = setup;
