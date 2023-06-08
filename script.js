@@ -63,7 +63,7 @@ function episodeSelector(episodes){
   episodes.forEach((episode, index) => {
     let option = document.createElement("option");
     option.value = index;
-    option.textContent = `${episode.name} - Season ${episode.season} , Episode ${episode.number}`;
+    option.textContent = `${episode.name} - S${episode.season} E${episode.number}`;
     selector.appendChild(option);
   });
 
@@ -98,7 +98,7 @@ function showSelector(showsData) {
   });
 
   firstSelector.addEventListener("change", event => {
-      selectedShowId = event.target.value;
+      selectedShowId = parseInt.apply(event.target.value);
       if (selectedShowId === -1) {
         makePageForEpisodes(allEpisodes);
       } else {
