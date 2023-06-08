@@ -2,16 +2,29 @@ const allEpisodes = getAllEpisodes();
 let storedEpisodes = allEpisodes;
 let selectedIndex = -1;
 
-//Fetch the episode data
-fetch("https://api.tvmaze.com/shows/82/episodes")
-  .then(response => response.json())
-  .then(episodes => {
-    setup(episodes);
-  })
-  .catch(error => {
-    console.log("error fetching episodes", error);
-  });
-//
+// //Fetch the episode data
+// const fetchAll = async () => {
+//   Promise.all([
+//     await fetch("https://api.tvmaze.com/shows/82/episodes"),
+//     await fetch("https://api.tvmaze.com/shows")
+//   ]).then(async (links) => {
+//     const episodes = links[0];
+//     const show = links[1];
+
+//     timeData = episodes.json();
+//     functionData = show.json();
+//   })
+
+
+//   // .then(response => response.json())
+//   // .then(episodes => {
+//   //   setup(episodes);
+//   // })
+//   // .catch(error => {
+//   //   console.log("error fetching episodes", error);
+//   // });
+// }
+//   //
 
 //Search Bar Container
 const searchInput = document.getElementById("searchinput");
@@ -30,14 +43,14 @@ searchInput.addEventListener("input", (e) => {
 //Episode Selector
 function episodeSelector(episodes){
   const selector = document.getElementById("selector"); 
-
   const showOption = document.createElement("option");
+  
   showOption.value = -1;
   showOption.textContent = "Show All Episodes";
   selector.appendChild(showOption);
   
   episodes.forEach((episode, index) => {
-    const option = document.createElement("option");
+    let option = document.createElement("option");
     option.value = index;
     option.textContent = `${episode.name} - Season ${episode.season} , Episode ${episode.number}`;
     selector.appendChild(option);
@@ -56,6 +69,17 @@ function episodeSelector(episodes){
   });
 }
 
+//Show selector 
+function showSelector(shows) {
+  const firstSelector = document.getElementById("first-selector");
+//  const firstShowOption = document.createElement("option");         //this is for show all shows later
+  shows.forEach((show, index) => {
+    let firstOption = document.createElement("option");
+    firstOption.value = index;
+    firstOption.textContent = ``
+  })
+
+}
 
 
 //Episode found: number
@@ -101,9 +125,9 @@ function makePageForEpisodes(episodeList) {
   }
 }
 //main setup function
-function setup(allEpisodes) {
-  makePageForEpisodes(allEpisodes);
-  episodeSelector(allEpisodes);
+function setup(episodes) {
+  makePageForEpisodes(episodes);
+  episodeSelector(episodes);
 }
 
 window.onload = function() {
