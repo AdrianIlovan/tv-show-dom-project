@@ -1,6 +1,6 @@
-const allEpisodes = getAllEpisodes();
-let storedEpisodes = allEpisodes;
-let selectedIndex = -1;
+// let allEpisodes = getAllEpisodes();
+// let storedEpisodes = allEpisodes;
+
 
 // //Fetch the episode data
 // const fetchAll = async () => {
@@ -25,6 +25,17 @@ let selectedIndex = -1;
 //   // });
 // }
 //   //
+
+
+fetch("https://api.tvmaze.com/shows/82/episodes")
+  .then(response => response.json())
+  .then(episodes => {
+    allEpisodes = episodes; // Assign the fetched data to allEpisodes
+    setup(allEpisodes); // Call the setup function
+  })
+  .catch(error => {
+    console.log("error fetching episodes", error);
+  });
 
 //Search Bar Container
 const searchInput = document.getElementById("searchinput");
@@ -68,18 +79,43 @@ function episodeSelector(episodes){
     }
   });
 }
-
+const shows = getAllShows(); 
 //Show selector 
-function showSelector(shows) {
+function showSelector(showsData) {
   const firstSelector = document.getElementById("first-selector");
-//  const firstShowOption = document.createElement("option");         //this is for show all shows later
-  shows.forEach((show, index) => {
-    let firstOption = document.createElement("option");
-    firstOption.value = index;
-    firstOption.textContent = ``
-  })
+  firstSelector.innerHTML = "";
+  const firstShowOption = document.createElement("option");         //this is for show all shows later
+  
+  firstShowOption.value = -1;
+  firstShowOption.textContent = "Show all";
+  firstSelector.appendChild(firstShowOption);
 
+  showsData.forEach((show, index) => {
+    let option = document.createElement("option");
+    option.value = show.id;
+    option.textContent = `${show.name}`;
+    firstSelector.appendChild(option);
+  });
+
+  firstSelector.addEventListener("change", event => {
+      selectedShowId = event.target.value;
+      if (selectedShowId === -1) {
+        makePageForEpisodes(allEpisodes);
+      } else {
+        fetch(`https://api.tvmaze.com/shows/${selectedShowId}/episodes`)
+        .then(response => response.json())
+        .then(episodes => {
+          makePageForEpisodes(episodes);
+          episodeCountNo(episodes.length);
+        })
+        .catch(error => {
+          console.log("error fetching episodes", error);
+        });
+      }
+    });
 }
+
+
 
 
 //Episode found: number
@@ -128,6 +164,7 @@ function makePageForEpisodes(episodeList) {
 function setup(episodes) {
   makePageForEpisodes(episodes);
   episodeSelector(episodes);
+  showSelector(episodes)
 }
 
 window.onload = function() {
