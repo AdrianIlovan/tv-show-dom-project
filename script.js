@@ -27,7 +27,7 @@
 //   //
 
 
-fetch("https://api.tvmaze.com/shows/82/episodes")
+fetch("https://api.tvmaze.com/shows/23/episodes")
   .then(response => response.json())
   .then(episodes => {
     allEpisodes = episodes; // Assign the fetched data to allEpisodes
@@ -98,7 +98,7 @@ function showSelector(showsData) {
   });
 
   firstSelector.addEventListener("change", event => {
-      selectedShowId = parseInt.apply(event.target.value);
+      let selectedShowId = parseInt.apply(event.target.value);
       if (selectedShowId === -1) {
         makePageForEpisodes(allEpisodes);
       } else {
@@ -164,7 +164,7 @@ function makePageForEpisodes(episodeList) {
 function setup(episodes) {
   makePageForEpisodes(episodes);
   episodeSelector(episodes);
-  showSelector(episodes)
+  showSelector(shows)
 }
 
 window.onload = function() {
