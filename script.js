@@ -27,7 +27,7 @@
 //   //
 
 
-fetch("https://api.tvmaze.com/shows/23/episodes")
+fetch("https://api.tvmaze.com/shows")
   .then(response => response.json())
   .then(episodes => {
     allEpisodes = episodes; // Assign the fetched data to allEpisodes
@@ -51,7 +51,7 @@ searchInput.addEventListener("input", (e) => {
   storedEpisodes = filteredEpisodes;
   });
 
-//Episode Selector
+//Episode second  selector
 function episodeSelector(episodes){
   const selector = document.getElementById("selector"); 
   const showOption = document.createElement("option");
@@ -80,11 +80,12 @@ function episodeSelector(episodes){
   });
 }
 const shows = getAllShows(); 
-//Show selector 
+//Show selector first selector
 function showSelector(showsData) {
   const firstSelector = document.getElementById("first-selector");
+  const secondSelector = document.getElementById("selector");
   firstSelector.innerHTML = "";
-  const firstShowOption = document.createElement("option");         //this is for show all shows later
+  const firstShowOption = document.createElement("option");        
   
   firstShowOption.value = -1;
   firstShowOption.textContent = "Show all";
@@ -98,7 +99,7 @@ function showSelector(showsData) {
   });
 
   firstSelector.addEventListener("change", event => {
-      let selectedShowId = parseInt.apply(event.target.value);
+      let selectedShowId = parseInt(event.target.value);
       if (selectedShowId === -1) {
         makePageForEpisodes(allEpisodes);
       } else {
@@ -107,12 +108,25 @@ function showSelector(showsData) {
         .then(episodes => {
           makePageForEpisodes(episodes);
           episodeCountNo(episodes.length);
+          updateSecondSelector(episodes);
         })
         .catch(error => {
           console.log("error fetching episodes", error);
         });
       }
     });
+
+  //function for the second selector (episodes-list)
+    function updateSecondSelector(episodes) {
+      secondSelector.innerHTML = ""; 
+
+      episodes.forEach((episode, index) => {
+        let option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${episode.name} - S${episode.season} E${episode.number}`;
+        secondSelector.appendChild(option);
+      });
+    }
 }
 
 
