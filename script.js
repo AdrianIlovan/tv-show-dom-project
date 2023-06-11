@@ -42,7 +42,7 @@ const searchInput = document.getElementById("searchinput");
 
 searchInput.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
-  const filteredEpisodes = allEpisodes.filter(episode => 
+  const filteredEpisodes = shows.filter(episode => 
     episode.name.toLowerCase().includes(value) || 
     episode.summary.toLowerCase().includes(value)
   );
@@ -51,36 +51,9 @@ searchInput.addEventListener("input", (e) => {
   storedEpisodes = filteredEpisodes;
   });
 
-//Episode second  selector
-function episodeSelector(episodes){
-  const selector = document.getElementById("selector"); 
-  const showOption = document.createElement("option");
-  
-  showOption.value = -1;
-  showOption.textContent = "Show All Episodes";
-  selector.appendChild(showOption);
-  
-  episodes.forEach((episode, index) => {
-    let option = document.createElement("option");
-    option.value = index;
-    option.textContent = `${episode.name} - S${episode.season} E${episode.number}`;
-    selector.appendChild(option);
-  });
 
-  let selectedIndex = -1;
-
-  selector.addEventListener("change", event => {
-    selectedIndex = parseInt(event.target.value);
-    if (selectedIndex === -1) {
-      makePageForEpisodes(allEpisodes);
-    } else {
-      const selectedEpisode = episodes[selectedIndex];
-      makePageForEpisodes([selectedEpisode]);
-    }
-  });
-}
 const shows = getAllShows(); 
-//Show selector first selector
+//Show first selector
 function showSelector(showsData) {
   const firstSelector = document.getElementById("first-selector");
   const secondSelector = document.getElementById("selector");
@@ -90,6 +63,8 @@ function showSelector(showsData) {
   firstShowOption.value = -1;
   firstShowOption.textContent = "Show all";
   firstSelector.appendChild(firstShowOption);
+
+  const sordedShows = showsData.sort((a,b) => a.name.localeCompare(b.name));
 
   showsData.forEach((show, index) => {
     let option = document.createElement("option");
@@ -129,22 +104,50 @@ function showSelector(showsData) {
     }
 }
 
+//Episode second  selector
+function episodeSelector(episodes){
+  const selector = document.getElementById("selector"); 
+  const showOption = document.createElement("option");
+  
+  showOption.value = -1;
+  showOption.textContent = "Show All Episodes";
+  selector.appendChild(showOption);
+  
+  episodes.forEach((episode, index) => {
+    let option = document.createElement("option");
+    option.value = index;
+    option.textContent = `${episode.name} - S${episode.season} E${episode.number}`;
+    selector.appendChild(option);
+  });
 
+  let selectedIndex = -1;
+
+  selector.addEventListener("change", event => {
+    selectedIndex = parseInt(event.target.value);
+    if (selectedIndex === -1) {
+      makePageForEpisodes(allEpisodes);
+    } else {
+      const selectedEpisode = episodes[selectedIndex];
+      makePageForEpisodes([selectedEpisode]);
+    }
+  });
+}
 
 
 //Episode found: number
-const searchResult = document.getElementById("searchresult");
+
 
   function episodeCountNo(count) {
+    const searchResult = document.getElementById("searchresult");
     searchResult.textContent = `Episodes Found: ${count}`;
 }
 
 //Episodes List From Selector text and numbers
-function makePageForEpisodes(episodeList) {
+function makePageForEpisodes(episodes) {
   const rootId = document.getElementById("root");
   rootId.innerHTML = "";
   
-  for (let episode of episodeList) {
+  for (let episode of episodes) {
     let containerDiv = document.createElement("div");
     rootId.appendChild(containerDiv);
     containerDiv.className = "box";
@@ -182,6 +185,7 @@ function setup(episodes) {
 }
 
 window.onload = function() {
-  setup(allEpisodes);
+  let episodes;
+  setup(episodes);
 }
 
