@@ -148,36 +148,34 @@ function episodeSelector(episodes){
 }
 
 //Episodes List From Selector text and numbers
+// Episodes List From Selector text and numbers
 function makePageForEpisodes(episodes) {
   const rootId = document.getElementById("root");
   rootId.innerHTML = "";
-  
+
   for (let episode of episodes) {
     let containerDiv = document.createElement("div");
     rootId.appendChild(containerDiv);
     containerDiv.className = "box";
 
-    let everySeason = document.createElement("span");
-    everySeason.innerHTML = `Season ${Number(episode.season) > 10 ? 1 : 0}${episode.season}`;
-
-    let everyEpisode = document.createElement("span");
-    everyEpisode.innerText = ` Episode${Number(episode.number) > 10 ? 1 : 0}${episode.number}`;
-
     let title = document.createElement("h2");
-    title.innerHTML = `${episode.name.toUpperCase()} - `;
+    title.innerHTML = `${episode.name.toUpperCase()}`;
     title.className = "title";
-    title.appendChild(everySeason);
-    title.appendChild(everyEpisode);
+
+    let seasonEpisode = document.createElement("span");
+    seasonEpisode.innerHTML = `Season ${episode.season} Episode ${episode.number}`;
+    seasonEpisode.className = "season-episode";
 
     let episodeSummary = document.createElement("p");
     episodeSummary.innerHTML = episode.summary;
-    episodeSummary.className = "summary"
+    episodeSummary.className = "summary";
 
     let episodeIMG = document.createElement("img");
     episodeIMG.src = episode.image.medium;
     episodeIMG.className = "image";
 
     containerDiv.appendChild(title);
+    containerDiv.appendChild(seasonEpisode);
     containerDiv.appendChild(episodeIMG);
     containerDiv.appendChild(episodeSummary);
   }
