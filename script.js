@@ -77,6 +77,9 @@ function showSelector(showsData) {
       let selectedShowId = parseInt(event.target.value);
       if (selectedShowId === -1) {
         makePageForEpisodes(allEpisodes);
+        episodeSelector([]);
+        secondSelector.style.display = "none";
+       // secondSelector.innerHTML = "";
       } else {
         fetch(`https://api.tvmaze.com/shows/${selectedShowId}/episodes`)
         .then(response => response.json())
@@ -84,6 +87,8 @@ function showSelector(showsData) {
           makePageForEpisodes(episodes);
           episodeCountNo(episodes.length);
           updateSecondSelector(episodes);
+          episodeSelector(episodes);
+          secondSelector.style.display = "block";
         })
         .catch(error => {
           console.log("error fetching episodes", error);
@@ -127,7 +132,7 @@ function episodeSelector(episodes){
     if (selectedIndex === -1) {
       makePageForEpisodes(allEpisodes);
     } else {
-      const selectedEpisode = episodes[selectedIndex];
+      const selectedEpisode = episode[selectedIndex];
       makePageForEpisodes([selectedEpisode]);
     }
   });
@@ -180,8 +185,8 @@ function makePageForEpisodes(episodes) {
 //main setup function
 function setup(episodes) {
   makePageForEpisodes(episodes);
-  episodeSelector(episodes);
-  showSelector(shows)
+  showSelector(shows);
+  episodeSelector([]);
 }
 
 window.onload = function() {
