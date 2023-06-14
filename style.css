@@ -1,3 +1,91 @@
+body {
+  background-color: #f3f3f3;
+  margin: 0px;
+}
+
+h1.title {
+  text-align: center;
+  padding: 1em;
+  background-color: #b9090b;
+  color: #fff;
+  margin: 0;
+}
+
+.selector-input {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.selector-input select,
+.selector-input input {
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 100%;
+}
+
 #root {
-  color: red;
+  color: #000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1em;
+}
+
+.box {
+  border: 2px solid #000;
+  width: 90%;
+  max-width: 400px;
+  height: auto;
+  margin: 1em;
+  border-radius: 10px;
+  padding: 1%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5em;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.summary {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+#searchresult {
+  margin-left: 0.5em;
+}
+
+#box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .box {
+    width: 40%;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .box {
+    width: 30%;
+  }
 }
